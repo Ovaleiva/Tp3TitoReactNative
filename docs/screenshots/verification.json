@@ -1,0 +1,16 @@
+{
+  "platform": "Chromium web, viewport 390x1000",
+  "backend": "HTTP simulado; no se crearon usuarios ni se enviaron emails",
+  "flows": [
+    "login deshabilitado y error genérico",
+    "registro y términos",
+    "confirmación y cooldown",
+    "reset neutro",
+    "callback PKCE y nueva contraseña",
+    "logout posterior al reset",
+    "persistencia al recargar",
+    "logout",
+    "link vencido y nueva solicitud"
+  ],
+  "consoleErrors": []
+}
