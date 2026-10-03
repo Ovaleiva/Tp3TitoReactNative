@@ -8,9 +8,9 @@ El acceso inicial respondió HTTP 403. Durante la revisión del 3 de octubre de 
 
 ### Qué se tomó de la referencia
 
-Se tomó como guía la organización general de los formularios: encabezado, campos, acción principal y accesos entre login, registro y recuperación. Se conservaron los campos redondeados y una jerarquía que destaca la acción principal.
+Se tomó como guía la organización de los formularios: cabecera violeta, panel blanco con esquinas superiores redondeadas, título y descripción, ilustración central, campos redondeados, acción principal y accesos entre pantallas.
 
-No se afirma una reproducción exacta de colores, tipografía, ilustraciones o medidas del Figma.
+La composición observada en Sign in y Sign up se adaptó al resto de las pantallas para mantener una identidad visual consistente. No se documenta ningún recurso como una copia exacta: no se verificaron todas las medidas, la fuente ni los recursos originales del Figma.
 
 ### Qué se adaptó y por qué
 
@@ -18,18 +18,20 @@ No se afirma una reproducción exacta de colores, tipografía, ilustraciones o m
 - **Registro con email:** se utiliza email como identificador de Supabase Auth, en lugar del teléfono visible en algunas pantallas del kit.
 - **Confirmación y recuperación:** pantallas adaptadas a los estados reales de Supabase, con validaciones, mensajes y controles de reenvío.
 - **Contraseña:** checklist de requisitos y confirmación exacta para orientar al usuario antes del envío.
-- **Ilustraciones:** se utilizaron emblemas de texto en lugar de las ilustraciones originales.
-- **Estilo visual:** fondo blanco, azul `#2159D8`, texto `#14213D` y fuente del sistema. Son decisiones locales, no valores extraídos del Figma.
+- **Ilustraciones:** se reemplazaron los emblemas de texto por ilustraciones propias de candado, teléfono, correo y confirmación, construidas con componentes de React Native. Evitan agregar dependencias y no reproducen exactamente los recursos originales.
+- **Paleta:** se reemplazó el azul anterior por violeta `#3629B7`, con fondos claros `#F2F1F9` y texto principal `#343434`. Se eligieron para acercar la apariencia a la referencia; no se afirma que todos sean valores extraídos o verificados del Figma.
+- **Tipografía:** se conserva la fuente del sistema para mantener compatibilidad entre plataformas. No se afirma coincidencia con la familia tipográfica original.
+- **Registro desplazable:** se conserva el desplazamiento para alojar el checklist, la confirmación de contraseña y los términos, y permitir el uso en pantallas pequeñas.
 
-Los estilos están centralizados en `src/components/ui.tsx`: campos de al menos 56 de alto, radios de 13/14 y márgenes horizontales de 24, expresados en unidades de React Native.
+Los estilos están centralizados en `src/components/ui.tsx`. Se mantienen campos y botones de al menos 56 unidades de alto, márgenes horizontales de 24 y esquinas superiores del panel con radio de 28, expresados en unidades de React Native.
 
-`ScrollView`, `KeyboardAvoidingView` y las áreas seguras permiten usar los formularios en pantallas pequeñas. Se incluyen etiquetas accesibles, anuncios de errores, foco visible y controles táctiles amplios.
+`ScrollView`, `KeyboardAvoidingView` y las áreas seguras permiten usar los formularios con el teclado abierto. Se incluyen etiquetas accesibles, anuncios de errores, foco visible y controles táctiles amplios. Las ilustraciones son decorativas y se excluyen de los lectores de pantalla.
 
-### Diferencias pendientes
+El ajuste visual conserva las operaciones de autenticación, validaciones, estados de carga y navegación previamente probados.
 
-La referencia presenta una cabecera violeta, un panel blanco con esquinas superiores redondeadas e ilustraciones de candado y teléfono. La implementación actual conserva una estructura visual propia.
+### Límites de la fidelidad visual
 
-Queda pendiente ajustar esos elementos y verificar la familia tipográfica, tamaños, pesos, espaciados y estados de los componentes. La aplicación no se presenta como una copia visual exacta del Figma.
+Se adaptaron la cabecera, el panel, la familia de colores y las ilustraciones. La reproducción exacta de tipografía, recursos gráficos, medidas y todos los estados del Figma no se incluyó en este ajuste. La aplicación se presenta como una adaptación de la referencia, no como una copia visual exacta.
 
 ## Persistencia y sesión
 
@@ -86,6 +88,10 @@ Los formularios bloquean controles durante las solicitudes y limpian las contras
 
 La modalidad utilizada fue Expo Go en un iPhone. El autor completó y grabó registro, confirmación de email, acceso a Home, logout, login, recuperación, cambio de contraseña y login con la contraseña nueva.
 
+La grabación realizada antes del ajuste visual documenta los flujos funcionales de esa versión. Para la entrega, se complementa con capturas de las cinco pantallas del diseño final y de errores relevantes, como email inválido o contraseñas que no coinciden. Así se distingue la evidencia del funcionamiento de la evidencia de la apariencia actual. Las capturas deben incorporarse antes de entregar y enlazarse desde el README.
+
+El ajuste visual se verificó con TypeScript, las 22 pruebas automatizadas y la prueba web de las cinco pantallas y sus flujos. Esta revisión usa HTTP simulado y no envía correos. La apariencia final debe revisarse también en el iPhone después de reemplazar los archivos.
+
 Las pruebas automatizadas utilizan respuestas simuladas y no envían correos. Su resultado no sustituye las pruebas en dispositivo.
 
 Los redirects amplios de Expo Go se conservaron para desarrollo. Deben restringirse al definir un entorno de producción.
@@ -97,6 +103,6 @@ Los redirects amplios de Expo Go se conservaron para desarrollo. Deben restringi
 - Publicación web y build nativa instalable.
 - Configuración de un proveedor SMTP propio.
 - Validación en Android.
-- Reproducción visual exacta del Figma, pendiente de completar.
+- Reproducción exacta de la tipografía, ilustraciones y medidas del Figma.
 
 Los elementos de banca y biometría presentes en el kit no se implementaron porque exceden el alcance de autenticación del TP.
