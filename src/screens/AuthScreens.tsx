@@ -38,7 +38,7 @@ export function LoginScreen({ navigation }: Props) {
     setPassword('');
     if (result === 'confirm') navigation.navigate('Pending');
   });
-  return <Page title="Qué bueno verte de nuevo" subtitle="Iniciá sesión y seguí con tu día." emblem="↗">
+  return <Page title="Qué bueno verte de nuevo" subtitle="Iniciá sesión y seguí con tu día." headerTitle="Iniciar sesión" emblem="↗">
     <Message text={f.state.notice} /><Message text={f.error} error />
     <EmailField email={email} setEmail={setEmail} />
     <Field label="Contraseña" placeholder="Ingresá tu contraseña" password value={password} onChangeText={setPassword} autoComplete="current-password" textContentType="password" />
@@ -55,7 +55,7 @@ export function RegisterScreen({ navigation }: Props) {
   const [accepted, setAccepted] = useState(false);
   const [termsOpen, setTermsOpen] = useState(false);
   const seconds = useCooldown('email', email);
-  return <Page title="Creá tu cuenta" subtitle="Empezá con tus datos. Es simple y lleva un momento." back={() => navigation.canGoBack() ? navigation.goBack() : navigation.navigate('Login')} emblem="+">
+  return <Page title="Creá tu cuenta" subtitle="Empezá con tus datos. Es simple y lleva un momento." back={() => navigation.canGoBack() ? navigation.goBack() : navigation.navigate('Login')} headerTitle="Registro" emblem="+">
     <Message text={f.error} error />
     <Field label="Nombre completo" placeholder="Tu nombre y apellido" value={name} onChangeText={setName} autoCapitalize="words" autoComplete="name" textContentType="name" />
     <EmailField email={email} setEmail={setEmail} />
@@ -79,7 +79,7 @@ export function RegisterScreen({ navigation }: Props) {
 export function PendingScreen({ navigation }: Props) {
   const f = useForm();
   const seconds = useCooldown('email', f.state.pendingEmail);
-  return <Page title="Revisá tu email" subtitle="Para continuar, abrí el enlace de confirmación desde este dispositivo." emblem="✉">
+  return <Page title="Revisá tu email" subtitle="Para continuar, abrí el enlace de confirmación desde este dispositivo." headerTitle="Confirmar email" emblem="✉">
     <View style={s.emailCard}><Text style={s.emailText}>{f.state.pendingEmail || 'Tu dirección de email'}</Text></View>
     <Message text={f.state.notice} /><Message text={f.error} error />
     <Text style={s.subtitle}>Si no encontrás el mensaje, revisá la carpeta de spam. Podés solicitar otro enlace cuando termine la espera.</Text>
@@ -92,7 +92,7 @@ export function RecoverScreen({ navigation }: Props) {
   const f = useForm();
   const [email, setEmail] = useState('');
   const seconds = useCooldown('email', email);
-  return <Page title="¿Olvidaste tu contraseña?" subtitle="Te ayudamos a recuperar el acceso a tu cuenta." back={() => navigation.canGoBack() ? navigation.goBack() : navigation.navigate('Login')} emblem="↻">
+  return <Page title="¿Olvidaste tu contraseña?" subtitle="Te ayudamos a recuperar el acceso a tu cuenta." back={() => navigation.canGoBack() ? navigation.goBack() : navigation.navigate('Login')} headerTitle="Recuperar acceso" emblem="↻">
     <Message text={f.state.notice} /><Message text={f.error} error />
     <EmailField email={email} setEmail={setEmail} />
     <Text style={[s.subtitle, { marginBottom: 24 }]}>Ingresá tu email. Si existe una cuenta, te enviaremos un enlace para elegir una contraseña nueva.</Text>
@@ -104,7 +104,7 @@ export function NewPasswordScreen() {
   const f = useForm();
   const seconds = useCooldown('update', '');
   const p = usePasswords();
-  return <Page title="Tu nueva contraseña" subtitle="Elegí una contraseña segura que no hayas usado antes." emblem="✓">
+  return <Page title="Tu nueva contraseña" subtitle="Elegí una contraseña segura que no hayas usado antes." headerTitle="Nueva contraseña" emblem="↗">
     <Message text={f.error} error />
     <Field label="Nueva contraseña" placeholder="Ingresá tu nueva contraseña" password value={p.password} onChangeText={p.setPassword} autoComplete="new-password" textContentType="newPassword" />
     <Checklist password={p.password} />
@@ -116,7 +116,7 @@ export function NewPasswordScreen() {
 export function HomeScreen() {
   const f = useForm();
   const name = f.state.session?.user.user_metadata.full_name;
-  return <Page title={typeof name === 'string' && name.trim() ? 'Hola, ' + name.trim().split(' ')[0] : 'Bienvenido a iBank'} subtitle="Tu cuenta está lista. Ya podés entrar y salir de forma segura." emblem="✓">
+  return <Page title={typeof name === 'string' && name.trim() ? 'Hola, ' + name.trim().split(' ')[0] : 'Bienvenido a iBank'} subtitle="Tu cuenta está lista. Ya podés entrar y salir de forma segura." headerTitle="iBank" emblem="✓">
     <View style={s.emailCard}><Text style={[s.subtitle, { textAlign: 'center', marginBottom: 8 }]}>Sesión iniciada</Text><Text style={s.emailText}>{f.state.session?.user.email}</Text></View>
     <Message text={f.error} error />
     <Button title="Cerrar sesión" secondary loading={f.state.busy} onPress={() => void f.run(() => f.controller!.logout())} />
