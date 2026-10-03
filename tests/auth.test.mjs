@@ -185,3 +185,13 @@ test('fallo de logout después de reset mantiene barrera de seguridad', async ()
   assert.equal(storageMap.get('ibank-recovery-active'), '1');
 });
 
+test('un fallo de red al confirmar no se presenta como enlace vencido', async () => {
+  const { controller, auth, storageMap } = setup();
+  auth.exchangeCodeForSession = async () => ({ data: { session: null }, error: { name: 'AuthRetryableFetchError' } });
+  await controller.start('ibanktp://confirm?code=test');
+  assert.match(controller.state.linkError, /conectarnos/);
+  assert.doesNotMatch(controller.state.linkError, /venció/);
+  assert.equal(controller.state.session, null);
+  assert.equal(controller.state.busy, false);
+  assert.equal(storageMap.size, 0);
+});

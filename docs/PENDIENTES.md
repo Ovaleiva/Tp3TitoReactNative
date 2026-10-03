@@ -1,55 +1,91 @@
-# Pendientes para retomar · TP3 iBank
+# Estado y pendientes · TP3 iBank
 
-Actualizado: 10 de septiembre de 2026.
+Actualizado: 3 de octubre de 2026.
 
-El usuario decidió posponer estas correcciones y guardar el avance en Git. Recordarlas al retomar el proyecto con el asistente. Subir el código no significa que el TP esté listo para entregar.
+## Resuelto o verificado
 
-## 1. Emails y deep links reales
+- Corregida la nulabilidad de Supabase en `AuthProvider.tsx`.
+- Agregado logging mínimo del error real en `handleLink`.
+- Aplicado transporte PKCE que espera al primer plano y permite hasta dos reintentos adicionales ante fallas de conexión.
+- Diferenciadas las fallas de red de los enlaces inválidos.
+- TypeScript y 22 pruebas locales aprobadas después de importar la corrección.
+- Acceso a Expo CLI resuelto mediante un token en la terminal.
+- Registro, confirmación, Home, logout, login, recuperación y login con contraseña nueva completados y grabados por el autor en un iPhone con Expo Go.
+- Dashboard de Supabase revisado y configuración documentada.
+- Política de contraseña alineada por el autor: mínimo 8 caracteres, mayúscula, minúscula, número y símbolo.
+- Mensaje del límite de envío de correos actualizado por el autor para no prometer una espera de 60 segundos.
+- README y documento de decisiones actualizados.
+- Grabaciones o capturas agregadas y enlazadas por el autor desde el README.
 
-La captura enviada muestra:
-- Destino: localhost:3000.
-- Parámetros de error: access_denied y otp_expired.
-- Descripción: Email link is invalid or has expired.
-- El navegador muestra ERR_CONNECTION_REFUSED.
+Las pruebas exitosas en iPhone documentan el resultado de la corrección; la causa original de la falla de conexión no se confirmó de manera concluyente.
 
-Esto documenta un enlace inválido/vencido y un destino sin conexión. No demuestra por sí solo cuál fue la causa original ni que la allowlist sea la única causa.
+## 1. Fidelidad visual al Figma
 
-Pendiente:
-- Revisar Site URL, Redirect URLs y las plantillas de correo.
-- Verificar las rutas ibanktp://confirm e ibanktp://reset-password para la build nativa.
-- Verificar las variantes reales de Expo Go o web según dónde se pruebe.
-- Pedir enlaces nuevos y comprobar confirmación y recuperación de punta a punta en la misma instalación/navegador que inició PKCE.
-- Confirmar que el reset termina en Login después de actualizar y cerrar la sesión temporal.
+El archivo original ya pudo abrirse. Se inspeccionaron visualmente Sign in, Sign up y la página de estilos.
 
-## 2. Dashboard de Supabase
+Queda pendiente:
 
-Anteriormente solo se comprobó por el endpoint público que email/registro estaban habilitados y Confirm email activo. No se configuró ni auditó el dashboard completo.
+- Adaptar la cabecera violeta y el panel blanco con esquinas superiores redondeadas.
+- Revisar ilustraciones y recursos gráficos.
+- Verificar y ajustar colores, familia tipográfica, tamaños y pesos.
+- Comparar radios, márgenes, espaciados y dimensiones.
+- Revisar estados vacío, foco, error, deshabilitado y carga.
+- Comparar las cinco pantallas con sus referencias.
 
-Pendiente verificar y documentar:
-- Confirm email activo.
-- Política: mínimo 8 caracteres, mayúscula, minúscula, dígito y símbolo, coincidente con el cliente.
-- Rate limits y cooldown de 60 segundos.
-- Expiración de enlaces/OTP.
-- Redirect URLs, SMTP y restricciones del proveedor de correo.
-- Protección de contraseñas filtradas, si el plan lo permite.
+Mientras estos puntos sigan pendientes, no afirmar una reproducción visual exacta.
 
-## 3. Fidelidad visual al Figma
+## 2. Verificación final
 
-El archivo respondió 403 durante los intentos anteriores. La interfaz actual es provisional; no se extrajeron sus valores exactos.
+Después de los últimos cambios:
 
-Pendiente inspeccionar Dev Mode o el panel de propiedades:
-- Paleta hexadecimal.
-- Familias y pesos tipográficos.
-- Radios, márgenes y espaciados.
-- Estados vacío, foco, error, deshabilitado y cargando de inputs/botones.
-- Ajustar las cinco pantallas y comparar con los frames reales.
+```powershell
+npm run typecheck
+npm test
+npx expo install --check
+npm audit
+```
 
-## 4. Prueba móvil
+Evaluar los resultados antes de cambiar dependencias. No aplicar actualizaciones forzadas sin comprobar su compatibilidad con Expo SDK 57.
 
-También quedó sin diagnosticar el mensaje de Expo Go: “There was a problem running the requested project”. Falta el detalle del error y saber si el dispositivo es Android o iPhone. No dar por confirmado que se resuelve con un túnel.
+Si se entrega soporte web, repetir también las pruebas web.
 
-Los bundles y las pruebas web simuladas pasaron, pero falta una prueba real en dispositivo y con emails.
+## 3. Evidencia de entrega
 
-## Git
+Comprobar que las capturas o grabaciones:
 
-Repositorio indicado por el usuario: https://github.com/Ovaleiva/Tp3TitoReactNative. Mantener .env excluido de Git; versionar únicamente .env.example como plantilla de configuración.
+- Muestren las cinco pantallas.
+- Incluyan confirmación y recuperación exitosas.
+- Incluyan algún error relevante, como contraseña incorrecta o validación del formulario.
+- No expongan contraseñas, tokens, claves ni enlaces de autenticación.
+- Se puedan abrir desde los enlaces del README.
+
+No solicitar nuevos correos únicamente para repetir evidencia que ya está disponible.
+
+## 4. Variables de entorno y GitHub
+
+- Comprobar que exista `.env.example` con valores ficticios y las variables requeridas.
+- Mantener `.env`, tokens, `node_modules` y `.expo` fuera de Git.
+- Revisar los cambios antes de subirlos.
+- Subir el código, documentos y evidencia al repositorio.
+- Comprobar que el README explique instalación, configuración y ejecución desde un clon nuevo.
+
+Repositorio: https://github.com/Ovaleiva/Tp3TitoReactNative
+
+## 5. Casos adicionales no verificados
+
+Quedan como límites de la validación actual:
+
+- Persistencia después de cerrar y reabrir el proceso en el iPhone.
+- Enlace real vencido o reutilizado.
+- Reinicio durante recuperación.
+- Ejecución en Android.
+
+La validación en una build nativa propia queda fuera de la modalidad de entrega actual.
+
+## Configuración conservada para desarrollo
+
+Se mantienen las URLs y el proveedor de correo que permitieron probar Expo Go. El límite observado es de 2 correos por hora para todo el proyecto.
+
+El destino de respaldo `localhost:3000` y los comodines amplios de redirects deben revisarse antes de un despliegue de producción. No se configuró SMTP propio ni se publicó una web.
+
+Subir el repositorio no sustituye las verificaciones pendientes ni completa por sí solo la fidelidad visual al Figma.

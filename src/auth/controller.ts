@@ -169,7 +169,11 @@ export class AuthController {
         if (error) throw error;
         await this.storage.removeItem(RECOVERY_KEY);
       } catch { cleanupFailed = true; }
-      this.patch({ session: null, recovery: false, linkError: INVALID_LINK, fatalError: cleanupFailed ? 'No se pudo cerrar la sesión temporal. Reiniciá la app para reintentar.' : '' });
+      const networkFailure = authError(error).kind === 'network';
+      const linkError = networkFailure
+        ? 'No pudimos conectarnos para completar el enlace. Si ya confirmaste el email, volvé a Login e iniciá sesión. Para recuperar la contraseña, solicitá un enlace nuevo cuando vuelva la conexión.'
+        : INVALID_LINK;
+      this.patch({ session: null, recovery: false, linkError, fatalError: cleanupFailed ? 'No se pudo cerrar la sesión temporal. Reiniciá la app para reintentar.' : '' });
     } finally {
       this.handlingLink = false;
       this.patch({ busy: false, processingLink: false });

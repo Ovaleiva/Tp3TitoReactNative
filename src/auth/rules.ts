@@ -21,8 +21,17 @@ export type ErrorKind = 'unconfirmed' | 'rate' | 'exists' | 'credentials' | 'wea
 export function authError(error: unknown): { kind: ErrorKind; message: string } {
   const e = error as { code?: string; status?: number; name?: string; message?: string } | null;
   const code = e?.code;
-  if (e?.status === 429 || code === 'over_request_rate_limit' || code === 'over_email_send_rate_limit')
-    return { kind: 'rate', message: 'Demasiados intentos. Esperá 60 segundos para volver a intentar.' };
+  if (code === 'over_email_send_rate_limit')
+    return {
+      kind: 'rate',
+      message: 'Se alcanzó el límite de envío de correos. Esperá a que se restablezca el cupo antes de solicitar otro.',
+    };
+
+  if (e?.status === 429 || code === 'over_request_rate_limit')
+    return {
+      kind: 'rate',
+      message: 'Demasiados intentos. Esperá un momento antes de volver a intentar.',
+    };
   if (code === 'email_not_confirmed') return { kind: 'unconfirmed', message: CONFIRM_SENT };
   if (code === 'user_already_exists' || code === 'email_exists') return { kind: 'exists', message: CONFIRM_SENT };
   if (code === 'invalid_credentials' || e?.message === 'Invalid login credentials')
